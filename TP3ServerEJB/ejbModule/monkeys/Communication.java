@@ -15,7 +15,7 @@ import javax.jms.Topic;
 @Stateless
 @LocalBean
 public class Communication implements CommunicationLocal {
-
+//youpi
 	@Inject
 	private JMSContext context;
 
@@ -49,6 +49,8 @@ public class Communication implements CommunicationLocal {
 		}
 		context.createProducer().send(topic, message);
 	}
+	
+	
 	
 
 	public void sendPirate(Pirate pirate) {
