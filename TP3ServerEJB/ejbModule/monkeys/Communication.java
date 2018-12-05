@@ -15,7 +15,7 @@ import javax.jms.Topic;
 @Stateless
 @LocalBean
 public class Communication implements CommunicationLocal {
-//youpi
+//youpi tralala
 	@Inject
 	private JMSContext context;
 
