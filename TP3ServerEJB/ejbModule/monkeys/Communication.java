@@ -32,6 +32,24 @@ public class Communication implements CommunicationLocal {
 	public void sendMap(int[][] map, String id) {
 		sendIntArrayMessage(map, id, "map");
 	}
+	
+	/**
+	 * 
+	 */
+	public void sendYourPirate(Pirate pirate) {
+		StreamMessage message = context.createStreamMessage();
+		try {
+			message.setJMSType("YourPirate");
+			message.setIntProperty("id", pirate.getId());
+			message.setIntProperty("x", pirate.getPosX());
+			message.setIntProperty("y", pirate.getPosY());
+			message.setIntProperty("energy", pirate.getEnergy());
+		} catch (JMSException e) {
+			e.printStackTrace();
+		}
+		context.createProducer().send(topic, message);
+	}
+	
 
 	public void sendPirate(Pirate pirate) {
 		StreamMessage message = context.createStreamMessage();

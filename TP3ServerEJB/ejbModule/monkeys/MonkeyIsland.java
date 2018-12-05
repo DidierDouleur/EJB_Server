@@ -14,6 +14,8 @@ import javax.persistence.Query;
  */
 @Stateful
 public class MonkeyIsland implements MIRemote {
+	
+	private int idPirate=0;
 
 	private Island mainland;
 
@@ -52,20 +54,25 @@ public class MonkeyIsland implements MIRemote {
 		//System.out.println("serveur"+id);
 		this.newGame(id);
 		this.communication.sendMap(this.mainland.getMap(),id);
-		//TODO : remove Test Pirate
-		Pirate pirate = new Pirate(1,5,5,this.configuration.readFileEnergy());
-		this.communication.sendPirate(pirate);
-		//TODO : remove Test Singe
-		Singe singe = new Singe (2,5,6);
-		this.communication.sendSinge(singe);
-		//TODO : remove Test Rhum
-		Rhum rhum = new Rhum(3,6,5,12);
-		this.communication.sendRhum(rhum);
-		//TODO TESTER MORT PIRATE
-
-		//TODO : REMOVE tresor
-		Tresor tresor = new Tresor(36,9,8);
-		this.communication.sendTresor(tresor);
+		
+		Pirate pirate = new Pirate(idPirate++,5,5,this.configuration.readFileEnergy());
+		this.communication.sendYourPirate(pirate);
+		
+		
+//		//TODO : remove Test Pirate
+//		Pirate pirate = new Pirate(1,5,5,this.configuration.readFileEnergy());
+//		this.communication.sendPirate(pirate);
+//		//TODO : remove Test Singe
+//		Singe singe = new Singe (2,5,6);
+//		this.communication.sendSinge(singe);
+//		//TODO : remove Test Rhum
+//		Rhum rhum = new Rhum(3,6,5,12);
+//		this.communication.sendRhum(rhum);
+//		//TODO TESTER MORT PIRATE
+//
+//		//TODO : REMOVE tresor
+//		Tresor tresor = new Tresor(36,9,8);
+//		this.communication.sendTresor(tresor);
 	}
 
 	@Override
