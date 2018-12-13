@@ -33,22 +33,35 @@ public class Communication implements CommunicationLocal {
 		sendIntArrayMessage(map, id, "map");
 	}
 	
-	/**
-	 * 
-	 */
-	public void sendYourPirate(Pirate pirate) {
+	public void sendYourPirate(Element pirate, int energy) {
 		StreamMessage message = context.createStreamMessage();
 		try {
 			message.setJMSType("YourPirate");
 			message.setIntProperty("id", pirate.getId());
 			message.setIntProperty("x", pirate.getPosX());
 			message.setIntProperty("y", pirate.getPosY());
-			message.setIntProperty("energy", pirate.getEnergy());
+			//TODO : Valeur en dur, modifier !!!!!!!!
+//			message.setIntProperty("energy", pirate.getEnergy());
+			message.setIntProperty("energy", energy);
 		} catch (JMSException e) {
 			e.printStackTrace();
 		}
 		context.createProducer().send(topic, message);
 	}
+	
+//	public void sendYourPirate(Pirate pirate) {
+//		StreamMessage message = context.createStreamMessage();
+//		try {
+//			message.setJMSType("YourPirate");
+//			message.setIntProperty("id", pirate.getId());
+//			message.setIntProperty("x", pirate.getPosX());
+//			message.setIntProperty("y", pirate.getPosY());
+//			message.setIntProperty("energy", pirate.getEnergy());
+//		} catch (JMSException e) {
+//			e.printStackTrace();
+//		}
+//		context.createProducer().send(topic, message);
+//	}
 	
 	
 	
