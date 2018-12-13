@@ -1,6 +1,7 @@
 package monkeys;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
@@ -16,6 +17,9 @@ import javax.persistence.Query;
 public class MonkeyIsland implements MIRemote {
 	
 	private int idPirate=0;
+	
+	//TODO : récupérer les pirates de la DB si il en existe
+	private ArrayList<Pirate> listPirates = new ArrayList<Pirate>();
 
 	private Island mainland;
 
@@ -51,11 +55,13 @@ public class MonkeyIsland implements MIRemote {
 
 	@Override
 	public void subscribe(String id){
+		
 		//System.out.println("serveur"+id);
 		this.newGame(id);
 		this.communication.sendMap(this.mainland.getMap(),id);
 		
 		Pirate pirate = new Pirate(idPirate++,5,5,this.configuration.readFileEnergy());
+		listPirates.add(pirate);
 		this.communication.sendYourPirate(pirate);
 		
 		
@@ -99,11 +105,16 @@ public class MonkeyIsland implements MIRemote {
 	}
 
 	@Override
-	public void move(int x, int y) {
-		
-		
-		
-		// TODO Auto-generated method stub
+	public void move(int x, int y, int id) {
+		System.out.println("Move demandé " + x + y + id);
+		for(int i=0; i<listPirates.size();i++) {
+			if(listPirates.get(i).getId() == id) {
+				listPirates.get(i).setPosX(x);
+				listPirates.get(i).setPosY(y);
+				System.out.println("Pirate " + id + "deplacer en x:" + x + " y:" + y);
+				//TODO une fois le déplacement fait, utiliser la comm pour envoyer l'info a tous les joueur
+			}
+		}
 		
 	}
 
