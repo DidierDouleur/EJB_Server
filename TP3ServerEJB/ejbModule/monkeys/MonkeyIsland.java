@@ -101,6 +101,11 @@ public class MonkeyIsland implements MIRemote {
 			this.communication.sendMap(this.mainland.getMap(), id);
 		}
 		this.communication.sendYourPirate(createPirate(5, 5), this.configuration.readFileEnergy());
+		createPirate(2,2);
+		createMonkey(3,3);
+		createMonkey(7,9);
+		this.communication.sendElements(listElements);
+		System.out.println("endTest");
 
 		// Pirate pirate = new
 		// Pirate(idPirate++,5,5,this.configuration.readFileEnergy());
@@ -201,7 +206,7 @@ public class MonkeyIsland implements MIRemote {
 	 * @param x
 	 * @param y
 	 */
-	public void createMonkeys(int x, int y) {
+	public void createMonkey(int x, int y) {
 		Element monkey = new Element();
 		monkey.setPosX(x);
 		monkey.setPosY(y);
@@ -221,6 +226,7 @@ public class MonkeyIsland implements MIRemote {
 		pirate.setPosX(x);
 		pirate.setPosY(y);
 		pirate.setId(idPirate++);
+		this.listElements.add(pirate);
 		return pirate;
 	}
 

@@ -1,5 +1,7 @@
 package monkeys;
 
+import java.util.ArrayList;
+
 import javax.annotation.Resource;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -15,7 +17,7 @@ import javax.jms.Topic;
 @Stateless
 @LocalBean
 public class Communication implements CommunicationLocal {
-//youpi tralala
+	// youpi tralala
 	@Inject
 	private JMSContext context;
 
@@ -32,7 +34,7 @@ public class Communication implements CommunicationLocal {
 	public void sendMap(int[][] map, String id) {
 		sendIntArrayMessage(map, id, "map");
 	}
-	
+
 	public void sendYourPirate(Element pirate, int energy) {
 		StreamMessage message = context.createStreamMessage();
 		try {
@@ -40,31 +42,45 @@ public class Communication implements CommunicationLocal {
 			message.setIntProperty("id", pirate.getId());
 			message.setIntProperty("x", pirate.getPosX());
 			message.setIntProperty("y", pirate.getPosY());
-			//TODO : Valeur en dur, modifier !!!!!!!!
-//			message.setIntProperty("energy", pirate.getEnergy());
+			// TODO : Valeur en dur, modifier !!!!!!!!
+			// message.setIntProperty("energy", pirate.getEnergy());
 			message.setIntProperty("energy", energy);
 		} catch (JMSException e) {
 			e.printStackTrace();
 		}
 		context.createProducer().send(topic, message);
 	}
-	
-//	public void sendYourPirate(Pirate pirate) {
-//		StreamMessage message = context.createStreamMessage();
-//		try {
-//			message.setJMSType("YourPirate");
-//			message.setIntProperty("id", pirate.getId());
-//			message.setIntProperty("x", pirate.getPosX());
-//			message.setIntProperty("y", pirate.getPosY());
-//			message.setIntProperty("energy", pirate.getEnergy());
-//		} catch (JMSException e) {
-//			e.printStackTrace();
-//		}
-//		context.createProducer().send(topic, message);
-//	}
-	
-	
-	
+
+	public void sendElements(ArrayList<Element> list) {
+		StreamMessage message = context.createStreamMessage();
+		System.out.println("send elements size => " + list.size());
+		try {
+			message.setJMSType("AllElements");
+			message.setIntProperty("size", list.size());
+			for (int i = 0; i < list.size(); i++) {
+				message.setIntProperty("id" + i, list.get(i).getId());
+				message.setIntProperty("x" + i, list.get(i).getPosX());
+				message.setIntProperty("y" + i, list.get(i).getPosY());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		context.createProducer().send(topic, message);
+	}
+
+	// public void sendYourPirate(Pirate pirate) {
+	// StreamMessage message = context.createStreamMessage();
+	// try {
+	// message.setJMSType("YourPirate");
+	// message.setIntProperty("id", pirate.getId());
+	// message.setIntProperty("x", pirate.getPosX());
+	// message.setIntProperty("y", pirate.getPosY());
+	// message.setIntProperty("energy", pirate.getEnergy());
+	// } catch (JMSException e) {
+	// e.printStackTrace();
+	// }
+	// context.createProducer().send(topic, message);
+	// }
 
 	public void sendPirate(Pirate pirate) {
 		StreamMessage message = context.createStreamMessage();
@@ -116,7 +132,7 @@ public class Communication implements CommunicationLocal {
 		}
 		context.createProducer().send(topic, message);
 	}
-	
+
 	public void sendTresor(Tresor tresor) {
 		StreamMessage message = context.createStreamMessage();
 		try {
