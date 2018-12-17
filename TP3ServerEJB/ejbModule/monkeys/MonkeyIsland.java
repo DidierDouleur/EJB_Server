@@ -99,15 +99,17 @@ public class MonkeyIsland implements MIRemote {
 
 	@Override
 	public void subscribe(String id) {
+		
+		if(!runningGame) {
+			this.newGame(id);
+		}
 
-		this.newGame(id);
+		
 		this.communication.sendMap(this.mainland.getMap(), id);
-		// System.out.println(this.createPirate(5, 5));
 		this.communication.sendYourID(this.createPirate(5, 5));
 		this.communication.sendElements(listElements);
 
 		// this.endGame();
-		// this.nikalamain();
 
 		// REPPRENDRE
 		// this.communication.sendYourPirate(this.createPirate(5, 5),25);
@@ -153,22 +155,30 @@ public class MonkeyIsland implements MIRemote {
 
 	@Override
 	public void disconnect(String id) {
+		//TODO ENVOYER A TOUS LES JOUEUR LA DISPARITION DU JOUEUR
 		int auxId = Integer.parseInt(id);
-		// Suppression du pirate de la liste des elements du jeu
 		for (int i = 0; i < listElements.size(); i++) {
 			if (listElements.get(i).getId() == auxId) {
 				listElements.remove(i);
 			}
 		}
 		try {
-			System.out.println("MonkeysIsland.java (disconnect) => try1");
 			Element elem = this.getElement(auxId);
-			System.out.println("MonkeysIsland.java (disconnect) => try2");
 			this.deleteElement(elem);
-			System.out.println("MonkeysIsland.java (disconnect) => try3");
+			
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("MonkeysIsland.java (disconnect) => catch");
+		}finally {
+			boolean test = true;
+			for(Element element : listElements) {
+				if(element.getType().matches("PIRATE")) {
+					System.out.println("MONKEYISLAND.java disconnect essaie endGame type == pirate ????");
+					test = false;
+				}
+			}
+			if(test) {
+				this.endGame();
+			}
 		}
 		// TODO : Envoyer le message aux autres utilisateur que le pirate n'est plus
 		// dans la partie
@@ -191,6 +201,8 @@ public class MonkeyIsland implements MIRemote {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		this.createMonkey(2, 2);
+		this.createRhum(7, 4);
 		runningGame = true;
 	}
 
@@ -215,20 +227,21 @@ public class MonkeyIsland implements MIRemote {
 		System.out.println("Move demandé " + x + y + id);
 		for (Element element : listElements) {
 			if (element.getId() == id) {
+				try {
+					// test eau
+					if (this.mainland.getMap()[element.getPosX() + x][element.getPosY() + y] == 1) {
+						element.setPosX(element.getPosX() + x);
+						element.setPosY(element.getPosY() + y);
+						element.setEnergy(element.getEnergy() -1);
 
-				//test eau
-				if (this.mainland.getMap()[element.getPosX() + x][element.getPosY() + y] == 1) {
-					element.setPosX(element.getPosX() + x);
-					element.setPosY(element.getPosY() + y);
-					// TODO : Partie mettant a jour la base de donnée
-					try {
 						this.updateElement(element);
-					} catch (Exception e) {
-						e.printStackTrace();
+
+						// TODO une fois le déplacement fait, utiliser la comm pour envoyer l'info a
+						// tous les joueur
+						this.communication.sendElements(this.listElements);
 					}
-					// TODO une fois le déplacement fait, utiliser la comm pour envoyer l'info a
-					// tous les joueur
-					this.communication.sendElements(this.listElements);
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
 			}
 		}

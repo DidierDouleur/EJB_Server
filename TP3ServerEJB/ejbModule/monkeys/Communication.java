@@ -72,6 +72,8 @@ public class Communication implements CommunicationLocal {
 				message.setIntProperty("id" + i, list.get(i).getId());
 				message.setIntProperty("x" + i, list.get(i).getPosX());
 				message.setIntProperty("y" + i, list.get(i).getPosY());
+				message.setIntProperty("energy" + i, list.get(i).getEnergy());
+				message.setStringProperty("type"+i, list.get(i).getType());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
