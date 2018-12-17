@@ -11,6 +11,8 @@ public class Element implements Serializable{
 	private int posX;
 	private int posY;
 	private int id;
+	private int energy;
+	private String type;
 	
 	public Element() {}
 
@@ -57,4 +59,22 @@ public class Element implements Serializable{
 	public void setId(int id) {
 		this.id = id;
 	}
+
+	public int getEnergy() {
+		return energy;
+	}
+
+	public void setEnergy(int energy) {
+		this.energy = energy;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+	
+	
 }
