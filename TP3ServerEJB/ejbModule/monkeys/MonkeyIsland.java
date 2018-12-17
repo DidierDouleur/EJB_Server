@@ -215,19 +215,21 @@ public class MonkeyIsland implements MIRemote {
 		System.out.println("Move demandé " + x + y + id);
 		for (Element element : listElements) {
 			if (element.getId() == id) {
-				element.setPosX(element.getPosX() + x);
-				element.setPosY(element.getPosY() + y);
-				System.out.println("Pirate " + id + "deplacer en x:" + element.getPosX() + " y:" + element.getPosY());
 
-				// TODO : Partie mettant a jour la base de donnée
-				try {
-					// this.addElement(element);
-				} catch (Exception e) {
-					e.printStackTrace();
+				//test eau
+				if (this.mainland.getMap()[element.getPosX() + x][element.getPosY() + y] == 1) {
+					element.setPosX(element.getPosX() + x);
+					element.setPosY(element.getPosY() + y);
+					// TODO : Partie mettant a jour la base de donnée
+					try {
+						this.updateElement(element);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					// TODO une fois le déplacement fait, utiliser la comm pour envoyer l'info a
+					// tous les joueur
+					this.communication.sendElements(this.listElements);
 				}
-				// TODO une fois le déplacement fait, utiliser la comm pour envoyer l'info a
-				// tous les joueur
-				this.communication.sendElements(this.listElements);
 			}
 		}
 	}
@@ -309,6 +311,5 @@ public class MonkeyIsland implements MIRemote {
 		listElements.clear();
 		runningGame = false;
 	}
-
 
 }
