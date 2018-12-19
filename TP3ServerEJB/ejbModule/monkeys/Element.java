@@ -1,20 +1,40 @@
 package monkeys;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-public class Element implements Serializable{
+public class Element implements Serializable {
 	private int posX;
 	private int posY;
 	private int id;
 	private int energy;
 	private String type;
-	
-	public Element() {}
+	private boolean state;
+
+	private ArrayList<Observer> observers;
+
+	public void addObserver(Observer o) {
+		this.observers.add(o);
+	}
+
+	public void removeObserver(Observer o) {
+		this.removeObserver(o);
+	}
+
+	public void notifyObserver(int x, int y) {
+		for (Observer o : observers) {
+			o.update(x, y);
+		}
+	}
+
+	public Element() {
+		observers = new ArrayList<Observer>();
+	}
 
 	/**
 	 * @return the posX
@@ -24,7 +44,8 @@ public class Element implements Serializable{
 	}
 
 	/**
-	 * @param posX the posX to set
+	 * @param posX
+	 *            the posX to set
 	 */
 	public void setPosX(int posX) {
 		this.posX = posX;
@@ -38,7 +59,8 @@ public class Element implements Serializable{
 	}
 
 	/**
-	 * @param posY the posY to set
+	 * @param posY
+	 *            the posY to set
 	 */
 	public void setPosY(int posY) {
 		this.posY = posY;
@@ -54,7 +76,8 @@ public class Element implements Serializable{
 	}
 
 	/**
-	 * @param id the id to set
+	 * @param id
+	 *            the id to set
 	 */
 	public void setId(int id) {
 		this.id = id;
@@ -75,6 +98,18 @@ public class Element implements Serializable{
 	public void setType(String type) {
 		this.type = type;
 	}
-	
-	
+
+	public void move(int x, int y) {
+		this.setPosX(x);
+		this.setPosY(y);
+	}
+
+	public void setState(boolean state) {
+		this.state = state;
+	}
+
+	public boolean getState() {
+		return this.state;
+	}
+
 }

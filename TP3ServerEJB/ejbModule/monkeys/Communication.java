@@ -35,21 +35,6 @@ public class Communication implements CommunicationLocal {
 		sendIntArrayMessage(map, id, "map");
 	}
 
-//	public void sendYourPirate(Element pirate, int energy) {
-//		StreamMessage message = context.createStreamMessage();
-//		try {
-//			message.setJMSType("YourPirate");
-//			message.setIntProperty("id", pirate.getId());
-//			message.setIntProperty("x", pirate.getPosX());
-//			message.setIntProperty("y", pirate.getPosY());
-//			// TODO : Valeur en dur, modifier !!!!!!!!
-//			// message.setIntProperty("energy", pirate.getEnergy());
-//			message.setIntProperty("energy", energy);
-//		} catch (JMSException e) {
-//			e.printStackTrace();
-//		}
-//		context.createProducer().send(topic, message);
-//	}
 
 	public void sendYourID(int id) {
 		StreamMessage message = context.createStreamMessage();
@@ -74,6 +59,7 @@ public class Communication implements CommunicationLocal {
 				message.setIntProperty("y" + i, list.get(i).getPosY());
 				message.setIntProperty("energy" + i, list.get(i).getEnergy());
 				message.setStringProperty("type"+i, list.get(i).getType());
+				message.setBooleanProperty("state"+i, list.get(i).getState());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -81,21 +67,8 @@ public class Communication implements CommunicationLocal {
 		context.createProducer().send(topic, message);
 	}
 
-	// public void sendYourPirate(Pirate pirate) {
-	// StreamMessage message = context.createStreamMessage();
-	// try {
-	// message.setJMSType("YourPirate");
-	// message.setIntProperty("id", pirate.getId());
-	// message.setIntProperty("x", pirate.getPosX());
-	// message.setIntProperty("y", pirate.getPosY());
-	// message.setIntProperty("energy", pirate.getEnergy());
-	// } catch (JMSException e) {
-	// e.printStackTrace();
-	// }
-	// context.createProducer().send(topic, message);
-	// }
 
-	public void sendPirate(Pirate pirate) {
+	public void sendPirate(Element pirate) {
 		StreamMessage message = context.createStreamMessage();
 		try {
 			message.setJMSType("Pirate");
@@ -108,45 +81,47 @@ public class Communication implements CommunicationLocal {
 		}
 		context.createProducer().send(topic, message);
 	}
+	
+	
 
-	public void sendDeathPirate(Pirate pirate) {
+	public void sendDeathPirate(Element element) {
 		StreamMessage message = context.createStreamMessage();
 		try {
-			message.setJMSType("DeatPirate");
-			message.setIntProperty("id", pirate.getId());
+			message.setJMSType("DeathPirate");
+			message.setIntProperty("id", element.getId());
 		} catch (JMSException e) {
 			e.printStackTrace();
 		}
 		context.createProducer().send(topic, message);
 	}
 
-//	public void sendSinge(Singe singe) {
-//		StreamMessage message = context.createStreamMessage();
-//		try {
-//			message.setJMSType("Singe");
-//			message.setIntProperty("id", singe.getId());
-//			message.setIntProperty("x", singe.getPosX());
-//			message.setIntProperty("y", singe.getPosY());
-//		} catch (JMSException e) {
-//			e.printStackTrace();
-//		}
-//		context.createProducer().send(topic, message);
-//	}
+	public void sendMonkey(Element singe) {
+		StreamMessage message = context.createStreamMessage();
+		try {
+			message.setJMSType("Singe");
+			message.setIntProperty("id", singe.getId());
+			message.setIntProperty("x", singe.getPosX());
+			message.setIntProperty("y", singe.getPosY());
+		} catch (JMSException e) {
+			e.printStackTrace();
+		}
+		context.createProducer().send(topic, message);
+	}
 
-//	public void sendRhum(Rhum rhum) {
-//		StreamMessage message = context.createStreamMessage();
-//		try {
-//			message.setJMSType("Rhum");
-//			message.setIntProperty("id", rhum.getId());
-//			message.setIntProperty("x", rhum.getPosX());
-//			message.setIntProperty("y", rhum.getPosY());
-//		} catch (JMSException e) {
-//			e.printStackTrace();
-//		}
-//		context.createProducer().send(topic, message);
-//	}
+	public void sendRhum(Element rhum) {
+		StreamMessage message = context.createStreamMessage();
+		try {
+			message.setJMSType("Rhum");
+			message.setIntProperty("id", rhum.getId());
+			message.setIntProperty("x", rhum.getPosX());
+			message.setIntProperty("y", rhum.getPosY());
+		} catch (JMSException e) {
+			e.printStackTrace();
+		}
+		context.createProducer().send(topic, message);
+	}
 
-//	public void sendTresor(Tresor tresor) {
+//	public void sendTresor(Element tresor) {
 //		StreamMessage message = context.createStreamMessage();
 //		try {
 //			message.setJMSType("Tresor");
@@ -188,4 +163,5 @@ public class Communication implements CommunicationLocal {
 		}
 		context.createProducer().send(topic, message);
 	}
+
 }

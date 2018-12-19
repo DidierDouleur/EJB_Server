@@ -77,7 +77,7 @@ public class Configuration implements IMap {
 		}
 		return -1;
 	}
-	
+
 	public int readRhumEnergy() {
 		try {
 			InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("monkeys.properties");
@@ -89,6 +89,18 @@ public class Configuration implements IMap {
 		}
 		return -1;
 	}
-	
+
+	public int readMonkeysNbr() {
+		try {
+			InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("monkeys.properties");
+			java.util.Properties properties = new java.util.Properties();
+			properties.load(is);
+			return Integer.parseInt(properties.getProperty("MONKEY_ERRATIC_NBR"));
+
+		} catch (Exception e) {
+			System.out.println(e);
+			return -1;
+		}
+	}
 
 }
