@@ -35,39 +35,6 @@ public class Communication implements CommunicationLocal {
 		sendIntArrayMessage(map, id, "map");
 	}
 
-
-	public void sendYourID(int id) {
-		StreamMessage message = context.createStreamMessage();
-		try {
-			message.setJMSType("YourID");
-			message.setIntProperty("id", id);
-		} catch (JMSException e) {
-			e.printStackTrace();
-		}
-		context.createProducer().send(topic, message);
-	}
-
-	public void sendElements(ArrayList<Element> list) {
-		StreamMessage message = context.createStreamMessage();
-		System.out.println("send elements size => " + list.size());
-		try {
-			message.setJMSType("AllElements");
-			message.setIntProperty("size", list.size());
-			for (int i = 0; i < list.size(); i++) {
-				message.setIntProperty("id" + i, list.get(i).getId());
-				message.setIntProperty("x" + i, list.get(i).getPosX());
-				message.setIntProperty("y" + i, list.get(i).getPosY());
-				message.setIntProperty("energy" + i, list.get(i).getEnergy());
-				message.setStringProperty("type"+i, list.get(i).getType());
-				message.setBooleanProperty("state"+i, list.get(i).getState());
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		context.createProducer().send(topic, message);
-	}
-
-
 	public void sendPirate(Element pirate) {
 		StreamMessage message = context.createStreamMessage();
 		try {
@@ -81,8 +48,6 @@ public class Communication implements CommunicationLocal {
 		}
 		context.createProducer().send(topic, message);
 	}
-	
-	
 
 	public void sendDeathPirate(Element element) {
 		StreamMessage message = context.createStreamMessage();
@@ -121,18 +86,18 @@ public class Communication implements CommunicationLocal {
 		context.createProducer().send(topic, message);
 	}
 
-//	public void sendTresor(Element tresor) {
-//		StreamMessage message = context.createStreamMessage();
-//		try {
-//			message.setJMSType("Tresor");
-//			message.setIntProperty("id", tresor.getId());
-//			message.setIntProperty("x", tresor.getPosX());
-//			message.setIntProperty("y", tresor.getPosY());
-//		} catch (JMSException e) {
-//			e.printStackTrace();
-//		}
-//		context.createProducer().send(topic, message);
-//	}
+	// public void sendTresor(Element tresor) {
+	// StreamMessage message = context.createStreamMessage();
+	// try {
+	// message.setJMSType("Tresor");
+	// message.setIntProperty("id", tresor.getId());
+	// message.setIntProperty("x", tresor.getPosX());
+	// message.setIntProperty("y", tresor.getPosY());
+	// } catch (JMSException e) {
+	// e.printStackTrace();
+	// }
+	// context.createProducer().send(topic, message);
+	// }
 
 	public void deletePirate(Pirate pirate) {
 		StreamMessage message = context.createStreamMessage();
@@ -140,6 +105,46 @@ public class Communication implements CommunicationLocal {
 			message.setJMSType("SuppressionPirate");
 			message.setIntProperty("id", pirate.getId());
 		} catch (JMSException e) {
+			e.printStackTrace();
+		}
+		context.createProducer().send(topic, message);
+	}
+
+	/**
+	 * Envoie l'ID d'un joueur à sa connection
+	 * 
+	 * @param id
+	 */
+	public void sendYourID(int id) {
+		StreamMessage message = context.createStreamMessage();
+		try {
+			message.setJMSType("YourID");
+			message.setIntProperty("id", id);
+		} catch (JMSException e) {
+			e.printStackTrace();
+		}
+		context.createProducer().send(topic, message);
+	}
+
+	/**
+	 * Envoie tous les elements d'une liste. Est utilisé pour envoyer les
+	 * informations de tous les elements de la partie lors de changement de ceux ci
+	 */
+	public void sendElements(ArrayList<Element> list) {
+		StreamMessage message = context.createStreamMessage();
+		System.out.println("send elements size => " + list.size());
+		try {
+			message.setJMSType("AllElements");
+			message.setIntProperty("size", list.size());
+			for (int i = 0; i < list.size(); i++) {
+				message.setIntProperty("id" + i, list.get(i).getId());
+				message.setIntProperty("x" + i, list.get(i).getPosX());
+				message.setIntProperty("y" + i, list.get(i).getPosY());
+				message.setIntProperty("energy" + i, list.get(i).getEnergy());
+				message.setStringProperty("type" + i, list.get(i).getType());
+				message.setBooleanProperty("state" + i, list.get(i).getState());
+			}
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		context.createProducer().send(topic, message);
