@@ -91,21 +91,7 @@ public class MonkeyIsland implements MIRemote {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		// } finally {
-		// boolean test = true;
-		// for (Element element : listElements) {
-		// if (element.getType().matches("PIRATE")) {
-		// System.out.println("MONKEYISLAND.java disconnect essaie endGame type ==
-		// pirate ????");
-		// test = false;
-		// }
-		// }
-		// if (test) {
-		// this.endGame();
-		// }
-		// }
-		// TODO : Envoyer le message aux autres utilisateur que le pirate n'est plus
-		// dans la partie
+
 	}
 
 	private void newGame(String name) {
@@ -135,7 +121,6 @@ public class MonkeyIsland implements MIRemote {
 	 */
 	@Override
 	public void move(int x, int y, int id) {
-		System.out.println("Move demandé " + x + y + id);
 		for (Element element : listElements) {
 			if (element.getId() == id && element.getState()) {
 				element.notifyObserver(element.getPosX() + x, element.getPosY() + y);
@@ -223,10 +208,7 @@ public class MonkeyIsland implements MIRemote {
 		pirate.setEnergy(this.configuration.readFileEnergy());
 		pirate.setType("PIRATE");
 		pirate.setState(true);
-		System.out.println("mouchard1:");
 		pirate.addObserver(new ObserverPirate(pirate, this));
-		System.out.println("mouchard2:");
-
 		this.listElements.add(pirate);
 		try {
 			this.addElement(pirate);

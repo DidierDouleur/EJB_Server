@@ -73,7 +73,7 @@ public class Configuration implements IMap {
 			properties.load(is);
 			return Integer.parseInt(properties.getProperty("PIRATE_MAX_ENERGIE"));
 		} catch (Exception e) {
-			System.out.println(e);
+			e.printStackTrace();
 		}
 		return -1;
 	}
@@ -85,7 +85,7 @@ public class Configuration implements IMap {
 			properties.load(is);
 			return Integer.parseInt(properties.getProperty("RHUM_ENERGIE"));
 		} catch (Exception e) {
-			System.out.println(e);
+			e.printStackTrace();
 		}
 		return -1;
 	}
@@ -98,7 +98,7 @@ public class Configuration implements IMap {
 			return Integer.parseInt(properties.getProperty("MONKEY_ERRATIC_NBR"));
 
 		} catch (Exception e) {
-			System.out.println(e);
+			e.printStackTrace();
 			return -1;
 		}
 	}

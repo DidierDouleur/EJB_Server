@@ -132,7 +132,6 @@ public class Communication implements CommunicationLocal {
 	 */
 	public void sendElements(ArrayList<Element> list) {
 		StreamMessage message = context.createStreamMessage();
-		System.out.println("send elements size => " + list.size());
 		try {
 			message.setJMSType("AllElements");
 			message.setIntProperty("size", list.size());

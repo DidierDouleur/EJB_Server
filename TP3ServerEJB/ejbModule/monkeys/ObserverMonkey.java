@@ -23,7 +23,6 @@ public class ObserverMonkey implements Observer {
 		for (Element testElem : monkeyIsland.getElements()) {
 
 			if (testElem.getPosX() == x && testElem.getPosY() == y) {
-				System.out.println("type " + testElem.getType());
 				switch (testElem.getType()) {
 				
 				case "PIRATE":
@@ -41,7 +40,6 @@ public class ObserverMonkey implements Observer {
 
 				default:
 					moved = true;
-					System.out.println("CASE DEFAULT");
 					this.monkey.move(x, y);
 					try {
 						monkeyIsland.updateElement(monkey);

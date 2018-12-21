@@ -24,19 +24,15 @@ public class ObserverPirate implements Observer {
 		Island island = monkeyIsland.getMainIsland();
 		boolean moved = false;
 
-		System.out.println("ObserverPirate => (update) x : " + x + " et y :" + y);
-
 		// Si la case ciblé est de la terre
 		if (island.getMap()[x][y] == 1) {
 			
 			for (Element testElem : monkeyIsland.getElements()) {
 
 				if (testElem.getPosX() == x && testElem.getPosY() == y) {
-					System.out.println("type " + testElem.getType());
 					switch (testElem.getType()) {
 					case "MONKEY":
 						moved = true;
-						System.out.println("CASE MONKEY x " + testElem.getPosX());
 						this.pirate.move(x, y);
 						this.pirate.setEnergy(this.pirate.getEnergy() - 1);
 						this.pirate.setState(false);
@@ -45,16 +41,13 @@ public class ObserverPirate implements Observer {
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
-						System.out.println("MORT PIRATE");
 						break;
 
 					case "PIRATE":
 						moved = true;
-						System.out.println("CASE PIRATE " + testElem.getId());
 						break;
 					case "RHUM":
 						moved = true;
-						System.out.println("CASE RHUM");
 						this.pirate.move(x, y);
 						this.pirate.setEnergy(this.pirate.getEnergy() - 1 + testElem.getEnergy());
 						testElem.setState(false);
@@ -67,7 +60,6 @@ public class ObserverPirate implements Observer {
 						break;
 					default:
 						moved = true;
-						System.out.println("CASE DEFAULT");
 						this.pirate.move(x, y);
 						this.pirate.setEnergy(this.pirate.getEnergy() - 1);
 						try {
@@ -80,7 +72,6 @@ public class ObserverPirate implements Observer {
 				}
 			}
 			if (!moved) {
-				System.out.println("HORS CASE");
 				this.pirate.move(x, y);
 				this.pirate.setEnergy(this.pirate.getEnergy() - 1);
 				try {
@@ -90,7 +81,6 @@ public class ObserverPirate implements Observer {
 				}
 			}
 		}
-		System.out.println("Energy " + this.pirate.getEnergy());
 		if (this.pirate.getEnergy() <= 0) {
 			this.pirate.setState(false);
 			try {
